@@ -8,29 +8,58 @@
 <style>
 
 body{
-font-family: Arial;
+font-family: Arial, sans-serif;
 margin:40px;
+background:#f6f6f6;
 }
+
+h1{
+margin-bottom:10px;
+}
+
+a{
+text-decoration:none;
+}
+
+/* GALLERY GRID */
 
 .gallery{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
+display:grid;
+grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
+gap:25px;
 }
 
+/* ITEM CARD */
+
 .item{
-width:250px;
-border:1px solid #ccc;
-padding:10px;
+background:white;
+border-radius:8px;
+padding:12px;
+box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
+
+/* IMAGE */
 
 .item img{
 width:100%;
+border-radius:5px;
 }
+
+/* BUTTON */
 
 button{
 margin-top:8px;
-padding:6px;
+width:100%;
+padding:8px;
+border:none;
+background:#3a7bd5;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2f63ac;
 }
 
 </style>
@@ -39,34 +68,62 @@ padding:6px;
 
 <body>
 
-<h1>Estate Gallery</h1>
+<h1>Estate Item Gallery</h1>
 
-<a href="index.html">Home</a>
+<a href="index.html">← Back to Home</a>
+
+<br><br>
 
 <div class="gallery">
 
+
+<!-- ITEM 1 -->
+
 <div class="item">
+
 <img src="photos/lamp.jpg">
+
 <p><b>Brass Lamp</b></p>
 <p>Living Room</p>
 
-<a href="https://forms.gle/YOURFORM">
+<a href="FORM_LINK_FOR_LAMP" target="_blank">
 <button>Claim Item</button>
 </a>
 
 </div>
 
 
+<!-- ITEM 2 -->
+
 <div class="item">
+
 <img src="photos/chair.jpg">
+
 <p><b>Wood Chair</b></p>
 <p>Dining Room</p>
 
-<a href="https://forms.gle/YOURFORM">
+<a href="FORM_LINK_FOR_CHAIR" target="_blank">
 <button>Claim Item</button>
 </a>
 
 </div>
+
+
+<!-- ITEM 3 -->
+
+<div class="item">
+
+<img src="photos/table.jpg">
+
+<p><b>Coffee Table</b></p>
+<p>Living Room</p>
+
+<a href="FORM_LINK_FOR_TABLE" target="_blank">
+<button>Claim Item</button>
+</a>
+
+</div>
+
 
 </div>
 
