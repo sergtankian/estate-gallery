@@ -94,6 +94,13 @@ max-height:90%;
 
 <script>
 
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZT83ByUuJMkJy1u5zNa2cgbsaQYXr3ESks5jXjyDdW_v-SeK35tAbl83UyoAfIgL-vQcTnIY2wGE8/pub?output=csv";
+
+const gallery = document.getElementById("gallery");
+const filterContainer = document.getElementById("filters");
+
+const rooms = new Set();
+
 function openLightbox(src){
   document.getElementById("lightbox-img").src = src;
   document.getElementById("lightbox").style.display = "flex";
@@ -102,93 +109,90 @@ function openLightbox(src){
 function closeLightbox(){
   document.getElementById("lightbox").style.display = "none";
 }
- 
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZT83ByUuJMkJy1u5zNa2cgbsaQYXr3ESks5jXjyDdW_v-SeK35tAbl83UyoAfIgL-vQcTnIY2wGE8/pub?output=csv";
 
-const rooms = new Set();
- 
+function filterRoom(room){
+
+  const items = document.querySelectorAll(".item");
+
+  items.forEach(item => {
+
+    if(room === "All"){
+      item.style.display = "block";
+      return;
+    }
+
+    if(item.dataset.room === room){
+      item.style.display = "block";
+    } else {
+      item.style.display = "none";
+    }
+
+  });
+
+}
+
 fetch(sheetURL)
 .then(response => response.text())
 .then(data => {
 
-const rows = data.split("\n").slice(1);
-const gallery = document.getElementById("gallery");
-  
-rows.forEach(row => {
+  const rows = data.split("\n").slice(1);
 
-const [name,room,photo,form,status] = row.split(",");
+  rows.forEach(row => {
 
-rooms.add(room);
-  
-const item = document.createElement("div");
-item.className = "item";
-item.dataset.room = room;
-  
-if(status === "Claimed"){
-item.classList.add("claimed");
-}
+    if(!row.trim()) return;
 
-item.innerHTML = `
-<img src="photos/${photo}" onclick="openLightbox(this.src)">
-<p><b>${name}</b></p>
-<p>${room}</p>
-<p>Status: ${status}</p>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSe8aJaO8yK07T_sZkMHWG-YLGN9cATdE7d-y_cxoR4n2c_9ag/viewform?usp=pp_url&entry.1358034698=${encodeURIComponent(name)}" target="_blank">
-<button>I'm Interested</button>
-</a>
-`;
+    const [name,room,photo,form,status] = row.split(",");
 
-[...rooms].sort().forEach(room => {
-  
-gallery.appendChild(item);
+    rooms.add(room);
 
-});
+    const item = document.createElement("div");
+    item.className = "item";
+    item.dataset.room = room;
 
-});
-  
-const filterContainer = document.getElementById("filters");
+    if(status === "Claimed"){
+      item.classList.add("claimed");
+    }
 
-filterContainer.innerHTML = `<button onclick="filterRoom('All')">All</button>`;
+    item.innerHTML = `
+      <img src="photos/${photo}" onclick="openLightbox(this.src)">
+      <p><b>${name}</b></p>
+      <p>${room}</p>
+      <p>Status: ${status}</p>
 
-const button = document.createElement("button");
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8aJaO8yK07T_sZkMHWG-YLGN9cATdE7d-y_cxoR4n2c_9ag/viewform?usp=pp_url&entry.1358034698=${encodeURIComponent(name)}" target="_blank">
+        <button>I'm Interested</button>
+      </a>
+    `;
 
-button.textContent = room;
+    gallery.appendChild(item);
 
-button.onclick = () => filterRoom(room);
+  });
 
-filterContainer.appendChild(button);
-  
+  // Build filter buttons AFTER rooms are collected
 
+  filterContainer.innerHTML = `<button onclick="filterRoom('All')">All</button>`;
 
-});
+  [...rooms].sort().forEach(room => {
 
-function filterRoom(room){
+    const button = document.createElement("button");
 
-const items = document.querySelectorAll(".gallery-item");
+    button.textContent = room;
 
-items.forEach(item => {
+    button.onclick = () => filterRoom(room);
 
-if(room === "All"){
-item.style.display = "block";
-return;
-}
+    filterContainer.appendChild(button);
 
-if(item.dataset.room === room){
-item.style.display = "block";
-}else{
-item.style.display = "none";
-}
+  });
 
 });
 
-}
-  
 </script>
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img">
 </div>
 </body>
 </html>
+
 
 
 
