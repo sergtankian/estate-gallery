@@ -131,6 +131,26 @@ function filterRoom(room){
 
   });
 
+function searchItems(){
+
+const query = document.getElementById("searchBox").value.toLowerCase();
+
+const items = document.querySelectorAll(".item");
+
+items.forEach(item => {
+
+const text = item.innerText.toLowerCase();
+
+if(text.includes(query)){
+item.style.display = "block";
+}else{
+item.style.display = "none";
+}
+
+});
+
+}
+
 }
 
 fetch(sheetURL)
@@ -194,6 +214,7 @@ fetch(sheetURL)
 </div>
 </body>
 </html>
+
 
 
 
