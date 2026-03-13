@@ -88,6 +88,14 @@ max-height:90%;
 
 <h1>Estate Items</h1>
 
+<input 
+id="searchBox" 
+type="text" 
+placeholder="Search items..." 
+onkeyup="searchItems()"
+style="padding:8px;width:300px;margin-bottom:20px;"
+>
+
 <div id="filters"></div>
   
 <div class="gallery" id="gallery"></div>
@@ -192,6 +200,7 @@ fetch(sheetURL)
 </div>
 </body>
 </html>
+
 
 
 
