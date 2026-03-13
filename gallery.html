@@ -59,8 +59,14 @@ color:white;
 border-radius:5px;
 }
 
+button:disabled{
+background:#999;
+cursor:not-allowed;
+}
+  
 .claimed{
 opacity:0.5;
+filter:grayscale(70%);
 }
 
 #lightbox{
@@ -177,7 +183,7 @@ fetch(sheetURL)
 
     if(!row.trim()) return;
 
-    const [name,room,photo,form,status] = row.split(",");
+    const [name,room,photo,form,status] = row.split(",").map(x => x.trim());
 
     rooms.add(room);
 
@@ -189,16 +195,23 @@ fetch(sheetURL)
       item.classList.add("claimed");
     }
 
-    item.innerHTML = `
-      <img loading="lazy" src="photos/${photo}" onclick="openLightbox(this.src)">
-      <p><b>${name}</b></p>
-      <p>${room}</p>
-      <p>Status: ${status}</p>
+   let buttonHTML = `
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSe8aJaO8yK07T_sZkMHWG-YLGN9cATdE7d-y_cxoR4n2c_9ag/viewform?usp=pp_url&entry.1358034698=${encodeURIComponent(name)}" target="_blank">
+<button>I'm Interested</button>
+</a>
+`;
 
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8aJaO8yK07T_sZkMHWG-YLGN9cATdE7d-y_cxoR4n2c_9ag/viewform?usp=pp_url&entry.1358034698=${encodeURIComponent(name)}" target="_blank">
-        <button>I'm Interested</button>
-      </a>
-    `;
+if(status === "Claimed"){
+buttonHTML = `<button disabled>Claimed</button>`;
+}
+
+item.innerHTML = `
+<img loading="lazy" src="photos/${photo}" onclick="openLightbox(this.src)">
+<p><b>${name}</b></p>
+<p>${room}</p>
+<p>Status: ${status}</p>
+${buttonHTML}
+`;
 
     gallery.appendChild(item);
 
@@ -228,6 +241,7 @@ fetch(sheetURL)
 </div>
 </body>
 </html>
+
 
 
 
