@@ -111,6 +111,9 @@ const filterContainer = document.getElementById("filters");
 
 const rooms = new Set();
 
+/* NEW: remember selected room */
+let currentRoom = "All";
+
 function openLightbox(src){
   document.getElementById("lightbox-img").src = src;
   document.getElementById("lightbox").style.display = "flex";
@@ -120,45 +123,49 @@ function closeLightbox(){
   document.getElementById("lightbox").style.display = "none";
 }
 
+
+/* UPDATED: room filter now stores selection */
 function filterRoom(room){
+
+  currentRoom = room;
+
+  applyFilters();
+
+}
+
+
+/* UPDATED: search now uses shared filter logic */
+function searchItems(){
+
+  applyFilters();
+
+}
+
+
+/* NEW: master filter function */
+function applyFilters(){
+
+  const query = document.getElementById("searchBox").value.toLowerCase();
 
   const items = document.querySelectorAll(".item");
 
   items.forEach(item => {
 
-    if(room === "All"){
-      item.style.display = "block";
-      return;
-    }
+    const text = item.innerText.toLowerCase();
 
-    if(item.dataset.room === room){
-      item.style.display = "block";
+    const matchesSearch = text.includes(query);
+    const matchesRoom = (currentRoom === "All" || item.dataset.room === currentRoom);
+
+    if(matchesSearch && matchesRoom){
+      item.style.display = "";
     } else {
       item.style.display = "none";
     }
 
   });
-}
-  
-function searchItems(){
-
-const query = document.getElementById("searchBox").value.toLowerCase();
-
-const items = document.querySelectorAll(".item");
-
-items.forEach(item => {
-
-const text = item.innerText.toLowerCase();
-
-if(text.includes(query)){
-item.style.display = "block";
-}else{
-item.style.display = "none";
-}
-
-});
 
 }
+
 
 fetch(sheetURL)
 .then(response => response.text())
@@ -221,6 +228,7 @@ fetch(sheetURL)
 </div>
 </body>
 </html>
+
 
 
 
