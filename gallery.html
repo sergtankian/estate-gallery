@@ -110,20 +110,12 @@ fetch(sheetURL)
 .then(data => {
 
 const rows = data.split("\n").slice(1);
-
-rows.forEach(row => {
-
-const [name,room,photo,form,status] = row.split(",");
-
-rooms.add(room);
-  
-const rows = data.split("\n").slice(1);
-
 const gallery = document.getElementById("gallery");
-
+  
 rows.forEach(row => {
 
 const [name,room,photo,form,status] = row.split(",");
+
 rooms.add(room);
   
 const item = document.createElement("div");
@@ -146,6 +138,8 @@ item.innerHTML = `
 
 gallery.appendChild(item);
 
+});
+  
 const filterContainer = document.getElementById("filters");
 
 filterContainer.innerHTML = `<button onclick="filterRoom('All')">All</button>`;
@@ -191,6 +185,7 @@ item.style.display = "none";
 </div>
 </body>
 </html>
+
 
 
 
