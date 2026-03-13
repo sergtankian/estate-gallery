@@ -7,6 +7,16 @@
 
 <style>
 
+#filters{
+margin-bottom:20px;
+}
+
+#filters button{
+margin-right:8px;
+padding:6px 12px;
+cursor:pointer;
+}
+  
 body{
 font-family:Arial;
 margin:40px;
@@ -114,8 +124,9 @@ const [name,room,photo,form,status] = row.split(",");
 
 const item = document.createElement("div");
 
-item.className = "item";
-
+item.className = "gallery-item";
+item.dataset.room = room;
+  
 if(status === "Claimed"){
 item.classList.add("claimed");
 }
@@ -136,12 +147,34 @@ gallery.appendChild(item);
 
 });
 
+function filterRoom(room){
+
+const items = document.querySelectorAll(".gallery-item");
+
+items.forEach(item => {
+
+if(room === "All"){
+item.style.display = "block";
+return;
+}
+
+if(item.dataset.room === room){
+item.style.display = "block";
+}else{
+item.style.display = "none";
+}
+
+});
+
+}
+  
 </script>
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img">
 </div>
 </body>
 </html>
+
 
 
 
