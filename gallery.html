@@ -190,7 +190,7 @@ fetch(sheetURL)
     }
 
     item.innerHTML = `
-      <img src="photos/${photo}" onclick="openLightbox(this.src)">
+      <img loading="lazy" src="photos/${photo}" onclick="openLightbox(this.src)">
       <p><b>${name}</b></p>
       <p>${room}</p>
       <p>Status: ${status}</p>
@@ -228,6 +228,7 @@ fetch(sheetURL)
 </div>
 </body>
 </html>
+
 
 
 
