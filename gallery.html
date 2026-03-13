@@ -100,25 +100,22 @@ function openLightbox(src){
 function closeLightbox(){
   document.getElementById("lightbox").style.display = "none";
 }
-
-const rooms = new Set();
-  
+ 
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZT83ByUuJMkJy1u5zNa2cgbsaQYXr3ESks5jXjyDdW_v-SeK35tAbl83UyoAfIgL-vQcTnIY2wGE8/pub?output=csv";
 
+const rooms = new Set();
+ 
 fetch(sheetURL)
 .then(response => response.text())
 .then(data => {
 
-const filterContainer = document.getElementById("filters");
+const rows = data.split("\n").slice(1);
 
-filterContainer.innerHTML = `<button onclick="filterRoom('All')">All</button>`;
+rows.forEach(row => {
 
-rooms.forEach(room => {
-  const button = document.createElement("button");
-  button.textContent = room;
-  button.onclick = () => filterRoom(room);
-  filterContainer.appendChild(button);
-});
+const [name,room,photo,form,status] = row.split(",");
+
+rooms.add(room);
   
 const rows = data.split("\n").slice(1);
 
@@ -130,7 +127,6 @@ const [name,room,photo,form,status] = row.split(",");
 rooms.add(room);
   
 const item = document.createElement("div");
-
 item.className = "gallery-item";
 item.dataset.room = room;
   
@@ -150,6 +146,20 @@ item.innerHTML = `
 
 gallery.appendChild(item);
 
+const filterContainer = document.getElementById("filters");
+
+filterContainer.innerHTML = `<button onclick="filterRoom('All')">All</button>`;
+
+[...rooms].sort().forEach(room => {
+
+const button = document.createElement("button");
+
+button.textContent = room;
+
+button.onclick = () => filterRoom(room);
+
+filterContainer.appendChild(button);
+  
 });
 
 });
@@ -181,6 +191,7 @@ item.style.display = "none";
 </div>
 </body>
 </html>
+
 
 
 
