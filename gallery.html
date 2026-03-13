@@ -86,13 +86,7 @@ max-height:90%;
 
 <h1>Estate Items</h1>
 
-<div id="filters">
-<button onclick="filterRoom('All')">All</button>
-<button onclick="filterRoom('LivingRoom')">Living Room</button>
-<button onclick="filterRoom('Kitchen')">Kitchen</button>
-<button onclick="filterRoom('Garage')">Garage</button>
-<button onclick="filterRoom('Bedroom')">Bedroom</button>
-</div>
+<div id="filters"></div>
   
 <div class="gallery" id="gallery"></div>
 
@@ -107,13 +101,25 @@ function closeLightbox(){
   document.getElementById("lightbox").style.display = "none";
 }
 
-
+const rooms = new Set();
+  
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZT83ByUuJMkJy1u5zNa2cgbsaQYXr3ESks5jXjyDdW_v-SeK35tAbl83UyoAfIgL-vQcTnIY2wGE8/pub?output=csv";
 
 fetch(sheetURL)
 .then(response => response.text())
 .then(data => {
 
+const filterContainer = document.getElementById("filters");
+
+filterContainer.innerHTML = `<button onclick="filterRoom('All')">All</button>`;
+
+rooms.forEach(room => {
+  const button = document.createElement("button");
+  button.textContent = room;
+  button.onclick = () => filterRoom(room);
+  filterContainer.appendChild(button);
+});
+  
 const rows = data.split("\n").slice(1);
 
 const gallery = document.getElementById("gallery");
@@ -121,7 +127,8 @@ const gallery = document.getElementById("gallery");
 rows.forEach(row => {
 
 const [name,room,photo,form,status] = row.split(",");
-
+rooms.add(room);
+  
 const item = document.createElement("div");
 
 item.className = "gallery-item";
@@ -174,6 +181,7 @@ item.style.display = "none";
 </div>
 </body>
 </html>
+
 
 
 
