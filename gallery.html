@@ -7,6 +7,23 @@
 
 <style>
 
+.back-link{
+display:inline-block;
+margin-bottom:10px;
+color:#e8e6e3;
+text-decoration:none;
+font-size:14px;
+}
+
+.back-link:hover{
+text-decoration:underline;
+}
+
+.filters-label{
+margin-bottom:8px;
+font-size:16px;
+}
+  
 #filters{
 margin-bottom:20px;
 display:flex;
@@ -126,16 +143,14 @@ border:1px solid #736b5e;
 
 <body>
   
-<a href="index.html" style="display:inline-block;margin-bottom:10px;color:#e8e6e3;text-decoration:none;">
-← Back
-</a>
+<a href="index.html" class="back-link">← Back</a>
   
 <h1>Estate Items</h1>
 
 <input id="searchBox" type="text" placeholder="Search items..." onkeyup="searchItems()">
 
-<h3 style="margin-bottom:8px;">Filter by room</h3>
-<div id="filters"></div>  
+<h3 class="filters-label">Filter by room</h3>
+<div id="filters"></div> 
   
 <div class="gallery" id="gallery"></div>
 
