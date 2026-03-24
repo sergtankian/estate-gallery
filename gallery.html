@@ -253,8 +253,7 @@ ${buttonHTML}
 
     button.textContent = room;
 
-    button.onclick = () => {
-  document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
+    button.onclick = () => { document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
   button.classList.add("active");
   filterRoom(room);
 
